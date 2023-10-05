@@ -1,0 +1,2 @@
+- Clave del usuario postgres: postgres
+- Base de datos a crear: tyr

@@ -1,0 +1,11 @@
+=== AMAZON WEB SERVICES
+1. Revisar amazon web services para elegir un proyecto
+2. Seleccionar y probar con una cuenta nueva
+2.1. En dicha cuenta crear la bd y un servidor de aplicaciones tomcat sencillo
+
+
+=== APLICATIVO
+1. Crear un modelo de base de datos en un IDE libre que genere todas las instancias de bd
+2. Generar interfaces de usuario del sistema basado en bootstrap
+3. Generar campa de acceso a datos con mybatis
+

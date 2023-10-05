@@ -1,0 +1,4 @@
+-- máquina virtual en vmware
+
+usuario: carlitos
+password: Carlitos123

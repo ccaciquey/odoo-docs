@@ -1,0 +1,112 @@
+password database:
+bxr3-6522-cfxv
+
+
+=========================== INSTALACIÓN DE LA BASE DE DATOS =================================
+Instalar postgresql en linux debian cloud
+comandos:
+
+-- actualizar el sistema
+sudo apt update && sudo apt -y full-upgrade
+
+-- instalar postgresql server y el cliente
+sudo apt install postgresql postgresql-client
+
+-- revisar el estado del servidor
+systemctl status postgresql
+
+-- cambiar de usuario a postgres
+sudo su - postgres
+
+-- cambiar la clave del usuario postgres a Carlitos123
+psql -c "alter user postgres with password 'Carlitos123'"
+
+-- iniciar comandos psql
+psql
+
+postgres=# CREATE DATABASE odootest;
+CREATE DATABASE
+postgres=# CREATE USER odoo1 WITH ENCRYPTED PASSWORD 'odoo1';
+CREATE ROLE
+postgres=# GRANT ALL PRIVILEGES ON DATABASE odootest to odoo1;
+GRANT
+
+
+sudo su - postgres
+psql -c "alter user postgres with password 'carlitos'"
+
+psql
+
+
+-- habilitar conexiones remotas.
+sudo nano /etc/postgresql/14/main/postgresql.conf 
+
+-- reiniciar el servicio postgresql
+sudo systemctl restart postgresql
+
+=========================== INSTALACIÓN DEL SERVICIO ODOO  =================================
+(https://www.cybrosys.com/blog/how-to-install-odoo-16-on-ubuntu-2004-lts)
+(https://www.odoo.com/documentation/16.0/administration/install/packages.html)***
+
+wget -q -O - https://nightly.odoo.com/odoo.key | sudo gpg --dearmor -o /usr/share/keyrings/odoo-archive-keyring.gpg
+echo 'deb [signed-by=/usr/share/keyrings/odoo-archive-keyring.gpg] https://nightly.odoo.com/16.0/nightly/deb/ ./' | sudo tee /etc/apt/sources.list.d/odoo.list
+sudo apt-get update && sudo apt-get install odoo
+
+-- Ingresar a la siguiente línea para realizar la configuracion
+http://192.168.80.129:8069
+
+=================== NO FUNCIONA
+-- creamos un usuario para odoo1
+sudo adduser --system --home=/opt/odoo1 --group odoo1
+
+-- instalamos dependencias:
+sudo apt-get install -y python3-pip
+
+sudo apt-get install python-dev python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
+
+sudo apt-get install -y npm
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+sudo npm install -g less less-plugin-clean-css
+sudo apt-get install -y node-less
+
+-- instalamos git para bajar las fuentes de odoo 16
+sudo apt-get install git
+
+
+-- instalar PDF
+sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
+sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
+sudo apt install -f
+
+-- cambiamos de usuario a odoo1
+sudo su - odoo1 -s /bin/bash
+
+git clone https://www.github.com/odoo/odoo --depth 1 --branch 16.0 --single-branch .
+
+sudo pip3 install -r /opt/odoo1/requirements.txt
+
+sudo cp /opt/odoo1/debian/odoo.conf /etc/odoo1.conf
+sudo nano /etc/odoo1.conf
+
+sudo chown odoo1: /etc/odoo1.conf
+sudo chmod 640 /etc/odoo1.conf
+
+sudo nano /etc/systemd/system/odoo1.service
+
+[Unit]
+   Description=Odoo1
+   Documentation=http://www.odoo.com
+   [Service]
+   # Ubuntu/Debian convention:
+   Type=simple
+   User=odoo1
+   ExecStart=/opt/odoo1/odoo-bin -c /etc/odoo1.conf
+   [Install]
+   WantedBy=default.target
+
+
+sudo chmod 755 /etc/systemd/system/odoo1.service
+sudo chown root: /etc/systemd/system/odoo1.service
+
+sudo systemctl start odoo1.service
+sudo systemctl status odoo1.service

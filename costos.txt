@@ -1,0 +1,22 @@
+Costos Fijos:
+2. Uso de la instancia (Servidor de Aplicaciones + Base de Datos) Amazon EC2, Bajo demanda
+
+costo de 4 cpus virtuales con 8gb de memoria ram para iniciar: $0.102 por hora de cada ram
+costo de 8 cpus virtuales con 16gb de memoria ram para iniciar: $0.204 por hora de cada ram
+
+3. Uso de la instancia file system(Amazon Elastic Filesystem)
+Costo de Almacenamiento usando Amazon Elastic File System tomando en cuenta que el 20% del total del almacenamiento
+se realiza mediante un Almacenamiento Standar(más caro) y el 80% restante con Almacenamiento de Acceso Poco Frecuente(más barato)
+(Durante los primeros 12 meses en AWS, puede utilizar hasta 5 GB/mes en el almacenamiento EFS Estándar de manera gratuita.)
+Mes1: 10GB = $0.82
+Mes2: 20GB = $1.64
+Mes3: 40GB = $3.24
+Mes4: 70GB = $5.64
+Mes5: 100GB = $8.04
+Mes6: 200GB = $16.04
+Mes7: 250GB = $20.04
+Mes8: 300GB = $24.04
+Mes9: 350GB = $28.04
+Mes10: 400GB = $32.04
+Mes11: 450GB = $36.04
+Mes12: 500GB = $40
